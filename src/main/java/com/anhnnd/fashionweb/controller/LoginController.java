@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
@@ -27,12 +25,12 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String processLogin(String username, String password, HttpSession session, Model model) {
-        User user = userRepository.findByUsername(username);
+    public String processLogin(String email,String password, HttpSession session, Model model) {
+        User user = userRepository.findByEmail(email);
         if (user != null && user.getPassword().equals(password)) {
             // Đăng nhập thành công, lưu thông tin vào session
             session.setAttribute("user", user);
-            model.addAttribute("username", username);
+            model.addAttribute("username", user.getLastname());
             return "redirect:/";
         } else {
             model.addAttribute("error", "Invalid username or password");
