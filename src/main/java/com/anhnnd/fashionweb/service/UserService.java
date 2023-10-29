@@ -2,19 +2,16 @@ package com.anhnnd.fashionweb.service;
 
 import com.anhnnd.fashionweb.model.User;
 import com.anhnnd.fashionweb.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
-
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
 
     public boolean existsByEmail(String email) {

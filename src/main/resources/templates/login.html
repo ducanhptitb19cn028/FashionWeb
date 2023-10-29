@@ -39,6 +39,9 @@
                     </div>
                 </div>
             </form>
+            <div style="color: red; align-content: center" th:if="${error}">
+                <span th:text="${error}"></span>
+            </div>
             <div class="mt-3">
                 <p>If you don't have an account, <a th:href="@{/register}">register here</a>.
                 </p>

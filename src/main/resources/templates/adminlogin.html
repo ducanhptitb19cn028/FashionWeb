@@ -26,7 +26,9 @@
                     <button type="submit" class="btn btn-primary col-lg-4 btn-login">Sign in</button>
                 </div>
             </form>
-
+            <div  style="color: red; align-content: center" th:if="${error}">
+                <span th:text="${error}"></span>
+            </div>
         </div>
     </div>
 </div>

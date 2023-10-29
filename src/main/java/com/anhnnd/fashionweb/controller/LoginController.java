@@ -20,8 +20,9 @@ public class LoginController {
     private UserService userService;
 
     @GetMapping("/login")
-    public String showLoginPage() {
-        return "login"; // Trả về trang login.jsp
+    public String showLoginPage(Model model) {
+//        model.getAttribute("error");
+        return "login";
     }
 
     @PostMapping("/login")
@@ -34,13 +35,14 @@ public class LoginController {
             return "redirect:/";
         } else {
             model.addAttribute("error", "Invalid username or password");
-            return "redirect:/login";
+            return "/login";
         }
     }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
+        model.getAttribute("registrationError");
         return "register";
     }
 

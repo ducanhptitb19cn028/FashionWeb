@@ -15,7 +15,7 @@ public class AdminController {
     @Autowired
     private AdminRepository adminRepository;
     @GetMapping("/admin-login")
-    public String showLoginAdmin(Model model) {
+    public String showLoginAdmin() {
         return "adminlogin";
     }
 
@@ -29,7 +29,7 @@ public class AdminController {
             return "redirect:/admin";
         } else {
             model.addAttribute("error", "Invalid username or password");
-            return "redirect:/admin-login";
+            return "adminlogin";
         }
     }
     @GetMapping("/admin")
@@ -38,6 +38,13 @@ public class AdminController {
         if (admin == null) {
             return "redirect:/admin-login";
         }
+        model.addAttribute("admin", admin);
         return "admin";
+    }
+    @GetMapping("/admin-logout")
+    public String logout(HttpSession session) {
+        // Invalidate the session to log the user out
+        session.invalidate();
+        return "redirect:/admin-login"; // Redirect to the login page after logout
     }
 }
