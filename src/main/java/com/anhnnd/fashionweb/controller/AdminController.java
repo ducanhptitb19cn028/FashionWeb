@@ -24,6 +24,7 @@ public class AdminController {
         Admin admin = adminRepository.findByUsername(username);
         if (admin != null && admin.getPassword().equals(password)) {
             session.setAttribute("admin", admin);
+            session.setMaxInactiveInterval(86400);
             model.addAttribute("admin", admin);
             model.addAttribute("name", admin.getUsername());
             return "redirect:/admin";
