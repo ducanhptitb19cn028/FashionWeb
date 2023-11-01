@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 @Table(name = "tbl_cart_item")
 public class CartItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER)

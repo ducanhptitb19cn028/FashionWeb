@@ -20,7 +20,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
     private Long id;
-    @Column(unique = true, name = "name")
     private String name;
     private float price;
     private String color;
@@ -30,7 +29,7 @@ public class Product {
     private String gender;
     private String brand;
     private int quantity;
-    private int numberSell;
+    private int quantitysold;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private List<ProductHistory> productHistory;

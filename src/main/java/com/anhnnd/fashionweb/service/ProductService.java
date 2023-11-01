@@ -74,8 +74,8 @@ public class ProductService {
         return productRepository.findByNameLike(name);
     }
 
-    public Product getProductByName(String name) {
-        return productRepository.findByName(name);
+    public Product getProductByNameandSize(String name, String size) {
+        return productRepository.findByNameAndSize(name, size);
     }
     public List<Product> getProductByCategoryId(Long id){
         return productRepository.findAllByCategoryId(id);

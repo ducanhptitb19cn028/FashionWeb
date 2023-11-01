@@ -3,62 +3,6 @@
 <head>
     <title>Add Product</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        h1 {
-            color: #007BFF;
-            text-align: center;
-        }
-        h2 {
-            text-align: center;
-        }
-        form {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"],
-        input[type="number"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-        }
-        h1 {
-            color: #007BFF;
-            text-align: center;
-            margin: 30px 0;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="~{navbar.html}"></div>
@@ -69,6 +13,9 @@
     <form th:action="@{/admin-products/checkProduct}" method="post">
         <label for="name">Product Name:</label>
         <input id="name" type="text" name="name" required>
+        <br>
+        <label for="sizefind">Size:</label>
+        <input id="sizefind" type="text" name="size" required>
         <br>
         <input type="submit" value="Check Product">
     </form>
@@ -91,7 +38,9 @@
         <h2>Product does not exist. Add new product:</h2>
         <form th:action="@{/admin-products/addNew}" method="post" accept-charset="UTF-8">
             <label for="name">Product Name:</label>
-            <input type="text" name="name" th:value="${param.name}" required readonly>
+            <label>
+                <input type="text" name="name" th:value="${param.name}" required readonly>
+            </label>
             <br>
             <label for="price">Price:</label>
             <input id="price" type="number" name="price" required>
@@ -122,7 +71,7 @@
             <input id="image" type="text" name="image">
             <br>
             <label for="size">Size:</label>
-            <input id="size" type="text" name="size">
+            <input id="size" type="text" name="size" th:value="${param.size}">
             <br>
             <label for="gender">Gender:</label>
             <select id="gender" name="gender" required>
@@ -134,14 +83,69 @@
             <label for="brand">Brand:</label>
             <input id="brand" type="text" name="brand">
             <br>
-            <input type="hidden" name="numberSell" th:value="0"/>
+            <input type="hidden" name="quantitysold" th:value="0"/>
             <br>
             <input type="submit" value="Add Product">
+            <br>
+            <a th:href="@{/admin-products}" class="btn btn-outline-primary">Back to List</a>
         </form>
     </div>
-
-    <br>
-    <a th:href="@{/admin-products}" class="btn btn-outline-primary">Back to List</a>
 </div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    h1 {
+        color: #007BFF;
+        text-align: center;
+    }
+    h2 {
+        text-align: center;
+    }
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type="submit"] {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    a {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+    }
+    h1 {
+        color: #007BFF;
+        text-align: center;
+        margin: 30px 0;
+    }
+</style>
 </body>
 </html>

@@ -3,6 +3,62 @@
 <head>
     <title>Add Category</title>
     <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #007BFF;
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            color: #007BFF;
+            text-align: center;
+            margin: 30px 0;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{navbar.html}"></div>
@@ -21,8 +77,9 @@
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Add</button>
+        <br>
+        <a th:href="@{/admin-categories}" class="btn btn-outline-primary">Back to List</a>
     </form>
-    <a th:href="@{/admin-categories}" class="btn btn-secondary mt-3">Back to List</a>
 </div>
 </body>
 </html>

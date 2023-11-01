@@ -90,7 +90,7 @@ public class ProductController {
     }
 
     @PostMapping("/checkProduct")
-    public String checkProduct(@RequestParam(value = "name") String name, Model model, HttpSession session) {
+    public String checkProduct(@RequestParam(value = "name") String name, @RequestParam(value = "size") String size, Model model, HttpSession session) {
         Admin admin = (Admin) session.getAttribute("admin");
         if (admin == null) {
             return "redirect:/admin-login";
@@ -102,7 +102,7 @@ public class ProductController {
 
         model.addAttribute("categories", categories);
         model.addAttribute("suppliers", suppliers);
-        Product existingProduct = productService.getProductByName(name);
+        Product existingProduct = productService.getProductByNameandSize(name, size);
         model.addAttribute("existingProduct", existingProduct);
         return "addProduct";
     }
