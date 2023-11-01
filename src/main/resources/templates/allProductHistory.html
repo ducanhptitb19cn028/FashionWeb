@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product History</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:replace="~{navbar.html}"></div>
+<h1>All Product History</h1>
+<table class="table table-hover table-responsive-md">
+    <tr>
+        <th>ID</th>
+        <th>Product Name</th>
+        <th>New Quantity</th>
+        <th>Change Time</th>
+    </tr>
+    <tr th:each="history : ${allProductHistory}">
+        <td th:text="${history.id}"></td>
+        <td th:text="${history.product.name}"></td>
+        <td th:text="${history.newQuantity}"></td>
+        <td th:text="${history.changeTime}"></td>
+    </tr>
+</table>
+<br>
+<a th:href="@{/admin-products}" class="btn btn-outline-primary">Back to Product List</a>
+</body>
+</html>

@@ -4,7 +4,6 @@ import com.anhnnd.fashionweb.model.Admin;
 import com.anhnnd.fashionweb.model.Supplier;
 import com.anhnnd.fashionweb.service.SupplierService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,11 @@ import java.util.List;
 @RequestMapping("/admin-suppliers")
 public class SupplierController {
 
-    @Autowired
-    private SupplierService supplierService;
+    private final SupplierService supplierService;
+
+    public SupplierController(SupplierService supplierService) {
+        this.supplierService = supplierService;
+    }
 
     @GetMapping
     public String listSuppliers(HttpSession session, Model model) {

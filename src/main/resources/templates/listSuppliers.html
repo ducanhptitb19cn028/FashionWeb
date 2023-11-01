@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Suppliers List</title>
 </head>
 <body>
-
+<div th:replace="~{navbar.html}"></div>
+<h1>Suppliers List</h1>
+<form th:action="@{/admin-suppliers/searchByName}" method="get">
+    <input type="text" name="name" placeholder="Enter supplier name">
+    <input type="submit" value="Search">
+</form>
+<br>
+<table class="table table-hover table-responsive-md">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="supplier : ${suppliers}">
+        <td th:text="${supplier.id}"></td>
+        <td th:text="${supplier.name}"></td>
+        <td th:text="${supplier.address}"></td>
+        <td><a th:href="@{/admin-suppliers/showEditForm(id=${supplier.id})}" class="btn btn-info">Edit</a></td>
+        <td><a th:href="@{/admin-suppliers/showDeleteForm(id=${supplier.id})}" class="btn btn-danger">Delete</a></td>
+    </tr>
+</table>
+<br>
+<a th:href="@{/admin-suppliers/showAddForm}" class="btn btn-outline-primary">Add Supplier</a>
 </body>
 </html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products List</title>
+</head>
+<body>
+<div th:replace="~{navbar.html}"></div>
+<h1>Products List</h1>
+<form th:action="@{/admin-products/searchByName}" method="get">
+    <input type="text" name="name" placeholder="Enter product name">
+    <input type="submit" value="Search">
+</form>
+<br>
+<table class="table table-hover table-responsive-md">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Image</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Category</th>
+        <th>Supplier</th>
+        <th>Edit</th>
+        <th>Delete</th>
+        <th>History</th>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.brand}"></td>
+        <td><img th:src="${product.image}" alt="Image placeholder" class="img-fluid" width="50dp" height="50dp"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.quantity}"></td>
+        <td th:text="${product.category.name}"></td>
+        <td th:text="${product.supplier.name}"></td>
+        <td th:if="${product.numberSell == 0}"><a th:href="@{/admin-products/showEditForm(id=${product.id})}" class="btn btn-info">Edit</a></td>
+        <td th:if="${product.numberSell == 0}"><a th:href="@{/admin-products/showDeleteForm(id=${product.id})}" class="btn btn-danger">Delete</a></td>
+        <td><a th:href="@{/admin-products/viewProductHistory(id=${product.id})}" class="btn btn-success">View History</a></td>
+    </tr>
+</table>
+<br>
+<a th:href="@{/admin-products/showAddForm}" class="btn btn-outline-primary">Add Product</a>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>History</title>
+</head>
+<body>
+<div th:replace="~{navbar.html}"></div>
+<h1>Product History for <span th:text="${product.name}"></span></h1>
+<table class="table table-hover table-responsive-md">
+    <tr>
+        <th>ID</th>
+        <th>New Quantity</th>
+        <th>Change Time</th>
+    </tr>
+    <tr th:each="history : ${productHistory}">
+        <td th:text="${history.id}"></td>
+        <td th:text="${history.newQuantity}"></td>
+        <td th:text="${history.changeTime}"></td>
+    </tr>
+</table>
+</body>
+</html>
