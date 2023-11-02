@@ -24,5 +24,5 @@ public class OrderItem {
 
     private double price;
     @ManyToOne
-    private Orders orders;
+    private Order order;
 }

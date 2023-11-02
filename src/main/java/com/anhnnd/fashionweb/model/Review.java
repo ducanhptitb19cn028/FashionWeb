@@ -22,7 +22,7 @@ public class Review {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-    private String content;
+    private String comment;
     @Column(name = "rating")
     private int rating;
     @Column(name = "review_date")

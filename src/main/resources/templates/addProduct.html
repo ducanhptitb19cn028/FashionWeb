@@ -58,6 +58,7 @@
                 <option th:each="spr : ${suppliers}" th:value="${spr.id}" th:text="${spr.name}"></option>
             </select>
             <br>
+            <input type="hidden" name="admin" th:value="${admin.id}"/>
 <!--            <input type="hidden" name="listComment" th:value=""/>-->
 
             <br>
