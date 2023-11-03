@@ -45,8 +45,4 @@ public class Product {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
-
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
 }
