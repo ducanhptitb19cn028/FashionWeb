@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="~{navbarUser.html}"></div>
+<div class="container">
+    <h2>Product Details</h2>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img th:src="${product.image}" class="img-fluid" th:alt="${product.name}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}"></h5>
+                    <p class="card-text" th:text="'Price: ' + ${product.price}"></p>
+                    <p class="card-text" th:text="'Color: ' + ${product.color}"></p>
+                    <p class="card-text" th:text="'Description: ' + ${product.description}"></p>
+                    <p class="card-text" th:text="'Size: ' + ${product.size}"></p>
+                    <p class="card-text" th:text="'Gender: ' + ${product.gender}"></p>
+                    <p class="card-text" th:text="'Brand: ' + ${product.brand}"></p>
+                    <p class="card-text" th:text="'Quantity: ' + ${product.quantity}"></p>
+                    <p class="card-text" th:text="'Number Sell: ' + ${product.quantitysold}"></p>
+
+                    <!-- Add to Cart button -->
+                    <form th:action="@{/cart/add(productId=${product.id})}" method="POST">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1">
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

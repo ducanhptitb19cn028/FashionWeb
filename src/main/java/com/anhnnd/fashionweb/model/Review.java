@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name="tbl_comment")
+@Table(name="tbl_review")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

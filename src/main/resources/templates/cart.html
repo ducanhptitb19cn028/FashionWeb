@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .cart-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity {
+            text-align: center;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navbar-dark .navbar-brand,
+        .navbar-dark .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: #ddd;
+        }
+
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: #000;
+            background-color: #fff;
+        }
+
+        .navbar-dark {
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{navbarUser.html}"></div>
+<div class="container mt-4">
+    <h1>Cart</h1>
+    <table class="table table-striped" th:if="${cart != null and cart.cartItems != null}">
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${cart.cartItems}" th:id="'cart-item-' + ${item.id}">
+            <td th:text="${item.product.name}"></td>
+            <td class="cart-item">
+                <div class="actions">
+                    <form th:action="@{/cart/decrease(id=${item.product.id})}" method="POST">
+                        <input type="hidden" name="_method" value="POST">
+                        <button id="btn-add" type="submit" class="btn btn-sm btn-primary">-</button>
+                    </form>
+                    <span class="quantity" th:text="${item.quantity}"></span>
+                    <form th:action="@{/cart/increase(id=${item.product.id})}" method="POST">
+                        <input type="hidden" name="_method" value="POST">
+                        <button id="btn-sub" type="submit" class="btn btn-sm btn-primary">+</button>
+                    </form>
+                </div>
+            </td>
+            <td th:text="${item.product.price}"></td>
+            <td>
+                <form th:action="@{/cart/remove(id=${item.product.id})}" method="POST">
+                    <input type="hidden" name="_method" value="POST">
+                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:unless="${cart != null and cart.cartItems != null}">
+        <p>Your cart is empty.</p>
+    </div>
+    <p>Total Price: <span id="total-price" th:text="${cart.total_price}"></span></p>
+    <form th:action="@{/cart/removeAll}" method="POST">
+        <input type="hidden" name="_method" value="POST">
+        <button type="submit" class="btn btn-danger">Remove All</button>
+    </form>
+    <form th:action="@{/order/orderForm}" method="GET">
+        <button type="submit" class="btn btn-success">Go to Order</button>
+    </form>
+</div>
+
+</body>
+</html>
