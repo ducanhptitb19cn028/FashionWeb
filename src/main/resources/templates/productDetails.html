@@ -35,6 +35,38 @@
             </div>
         </div>
     </div>
+
 </div>
+<div class="container">
+    <h2>Product Reviews</h2>
+    <form th:action="@{/products/addReview(productId=${product.id})}" method="POST">
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea id="comment" class="form-control" name="comment" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating:</label>
+            <select id="rating" class="form-control" name="rating" required>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Review</button>
+    </form>
+<div th:each="review : ${product.getListReview()}">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${review.user.email}"></h5>
+            <p class="card-text" th:text="${review.comment}"></p>
+            <p class="card-text" th:text="'Rating: ' + ${review.rating}"></p>
+            <p class="card-text" th:text="'Review Date: ' + ${review.reviewDate}"></p>
+            <!-- You can add more details from the review here -->
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

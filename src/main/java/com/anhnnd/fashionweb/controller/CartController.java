@@ -39,6 +39,12 @@ public class CartController {
         Long customerId = user.getId();
         // Use the customerId to fetch the Cart
         Cart cart = cartRepository.findByUserId(customerId);
+        if (cart == null) {
+            // Create a new Cart object if it doesn't exist
+            cart = new Cart();
+            cart.setUser(user);
+            cart = cartRepository.save(cart);
+        }
         model.addAttribute("cart", cart);
         return "cart";
     }

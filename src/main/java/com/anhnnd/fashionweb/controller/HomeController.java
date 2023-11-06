@@ -1,6 +1,7 @@
 package com.anhnnd.fashionweb.controller;
 
 
+import com.anhnnd.fashionweb.model.Admin;
 import com.anhnnd.fashionweb.model.Category;
 import com.anhnnd.fashionweb.model.Product;
 import com.anhnnd.fashionweb.model.User;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class HomeController {
     @Autowired
@@ -23,11 +26,14 @@ public class HomeController {
     private ProductService productService;
 
     @GetMapping("/")
-    public String homepage(Model model, HttpSession session) {
+    public String homepage(Model model, HttpSession session,@RequestParam(value = "productName", required = false) String productName) {
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("allproducts", productService.getAllProducts());
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
+        if (productName != null && !productName.isEmpty()) {
+            model.addAttribute("allproducts", productService.searchProductsByName(productName));
+        }
         return "home";
     }
 
@@ -39,14 +45,14 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/products")
-    public String viewAllProductByCategory(Model model, @RequestParam("cid") Long id, HttpSession session) {
+    @GetMapping("/products-category")
+    public String viewAllProductByCategory(Model model, @RequestParam("cid") Long cid, HttpSession session) {
         model.addAttribute("categories", categoryService.getAllCategories());
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
-        if (id != null) {
-            model.addAttribute("prodByCate", productService.getProductByCategoryId(id));
-            Category selectedCategory = categoryService.getCategoryById(id);
+        if (cid != null) {
+            model.addAttribute("prodByCate", productService.getProductByCategoryId(cid));
+            Category selectedCategory = categoryService.getCategoryById(cid);
             model.addAttribute("selectedCategoryName", selectedCategory.getName());
         } else {
             model.addAttribute("allproducts", productService.getAllProducts());

@@ -71,7 +71,7 @@ public class ProductService {
     }
 
     public List<Product> searchProductsByName(String name) {
-        return productRepository.findByNameLike(name);
+        return productRepository.findByNameStartsWith(name);
     }
 
     public Product getProductByNameandSize(String name, String size) {
@@ -79,5 +79,8 @@ public class ProductService {
     }
     public List<Product> getProductByCategoryId(Long id){
         return productRepository.findAllByCategoryId(id);
+    }
+    public List<Product> getProductByCategoryIdAndName(Long categoryId, String productName) {
+        return productRepository.findByCategoryIdAndNameContaining(categoryId, productName);
     }
 }
