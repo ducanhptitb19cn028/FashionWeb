@@ -40,8 +40,8 @@ public class OrderController {
         model.addAttribute("user", user);
         Cart cart = cartService.viewCartByUserId(userId);
         if (cart == null) {
-
-            return "redirect:/";
+            model.addAttribute("error", "Cart not found");
+            return "home";
         }
         String errorMessage = (String) session.getAttribute("errorMessage");
         model.addAttribute("errorMessage", errorMessage);

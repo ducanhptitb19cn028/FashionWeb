@@ -59,6 +59,10 @@
 </head>
 <body>
 <div th:replace="~{navbarUser.html}"></div>
+<div style="color: red; align-content: center" th:if="${error}">
+    <span th:text="${error}"></span>
+</div>
+<h1>Fashion Shop</h1>
 <form th:action="@{/}" method="get">
     <input type="text" name="productName" placeholder="Enter product name" th:value="${productName}">
     <input type="submit" value="Search">
