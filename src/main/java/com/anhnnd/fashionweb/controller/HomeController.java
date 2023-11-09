@@ -31,6 +31,7 @@ public class HomeController {
         model.addAttribute("allproducts", productService.getAllProducts());
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
+        model.getAttribute("error");
         if (productName != null && !productName.isEmpty()) {
             model.addAttribute("allproducts", productService.searchProductsByName(productName));
         }
@@ -45,7 +46,7 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/products-category")
+    @GetMapping("/products")
     public String viewAllProductByCategory(Model model, @RequestParam("cid") Long cid, HttpSession session) {
         model.addAttribute("categories", categoryService.getAllCategories());
         User user = (User) session.getAttribute("user");

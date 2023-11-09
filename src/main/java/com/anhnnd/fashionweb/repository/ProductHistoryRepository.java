@@ -12,5 +12,4 @@ import java.util.List;
 public interface ProductHistoryRepository extends JpaRepository<ProductHistory, Long> {
     @Query("SELECT p FROM ProductHistory p WHERE p.product.id = :pid")
     List<ProductHistory> findByProduct(@Param("pid")Long pid);
-
 }

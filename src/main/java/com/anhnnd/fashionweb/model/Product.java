@@ -6,7 +6,6 @@ import lombok.*;
 import jakarta.persistence.*;
 import java.util.List;
 
-@Data
 @Getter
 @Setter
 @Entity
@@ -18,16 +17,13 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true)
     private Long id;
     private String name;
     private float price;
-    private String color;
     private String description;
     private String image;
     private String size;
     private String gender;
-    private String brand;
     private int quantity;
     private int quantitysold;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

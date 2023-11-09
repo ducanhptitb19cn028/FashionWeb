@@ -73,21 +73,7 @@ public class ProductController {
         return "redirect:/admin-products";
     }
 
-    @PostMapping("/updateQuantity")
-    public String updateQuantity(@RequestParam("id") Long productId,
-                                 @RequestParam("quantity") int quantity,
-                                 HttpSession session, Model model) {
-        Admin admin = (Admin) session.getAttribute("admin");
-        if (admin == null) {
-            return "redirect:/admin-login";
-        }
-        model.addAttribute("admin", admin);
-        Product existingProduct = productService.getProductById(productId);
-        existingProduct.setQuantity(existingProduct.getQuantity() + quantity);
-        productService.updateProduct(existingProduct);
-        productService.saveProductHistory(existingProduct, quantity);
-        return "redirect:/admin-products";
-    }
+
 
     @PostMapping("/checkProduct")
     public String checkProduct(@RequestParam(value = "name") String name, @RequestParam(value = "size") String size, Model model, HttpSession session) {
@@ -123,7 +109,15 @@ public class ProductController {
         model.addAttribute("product", product);
         return "editProduct";
     }
-
+    @PostMapping("/updateQuantity")
+    public String updateQuantity(@RequestParam("id") Long productId,
+                                 @RequestParam("quantity") int quantity) {
+        Product existingProduct = productService.getProductById(productId);
+        existingProduct.setQuantity(existingProduct.getQuantity() + quantity);
+        productService.updateProduct(existingProduct);
+        productService.saveProductHistory(existingProduct, quantity);
+        return "redirect:/admin-products";
+    }
     @PostMapping("/update")
     public String updateProduct(@ModelAttribute("product") Product product, HttpSession session, Model model) {
         Admin admin = (Admin) session.getAttribute("admin");

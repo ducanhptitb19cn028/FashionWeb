@@ -87,7 +87,7 @@ public class OrderService {
         orderRepository.saveAndFlush(order);
 
         try {
-            //xóa cart của customer sau khi order
+            //delete cart after order
             cartService.removeAllProduct(user.getId());
         } catch (Exception ex) {
             Logger.getLogger(OrderService.class.getName()).log(Level.SEVERE, null, ex);

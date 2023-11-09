@@ -233,4 +233,8 @@ public class CartService {
         cartRepository.save(cart);
         return cart;
     }
+
+    public Cart findByUserId(Long customerId) {
+        return cartRepository.findByUserId(customerId);
+    }
 }

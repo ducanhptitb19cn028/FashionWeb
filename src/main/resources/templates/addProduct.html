@@ -59,11 +59,9 @@
             </select>
             <br>
 <!--            <input type="hidden" name="listComment" th:value=""/>-->
+            <input type="hidden" name="admin" th:value="${admin.id}"/>
+            <br>
 
-            <br>
-            <label for="color">Color:</label>
-            <input id="color" type="text" name="color">
-            <br>
             <label for="description">Description:</label>
             <textarea id="description" name="description"></textarea>
             <br>
@@ -79,9 +77,6 @@
                 <option value="Female">Female</option>
                 <option value="Unisex">Unisex</option>
             </select>
-            <br>
-            <label for="brand">Brand:</label>
-            <input id="brand" type="text" name="brand">
             <br>
             <input type="hidden" name="quantitysold" th:value="0"/>
             <br>

@@ -65,9 +65,9 @@ public class ProductService {
         }
     }
     @Transactional
-    public ProductHistory saveProductHistory(Product product, int newQuantity) {
+    public void saveProductHistory(Product product, int newQuantity) {
         ProductHistory productHistory = new ProductHistory(product, newQuantity);
-        return productHistoryRepository.save(productHistory);
+        productHistoryRepository.save(productHistory);
     }
 
     public List<Product> searchProductsByName(String name) {
