@@ -46,9 +46,20 @@
             <textarea id="description" class="form-control" name="description" th:text="${product.description}"></textarea>
         </div>
         <div class="form-group">
-            <label for="image">Image:</label>
-            <input id="image" type="text" class="form-control" name="image" th:value="${product.image}">
+            <input type="file" class="inputFile" id="fileinp" onchange="getFile(event)" accept="image/*" />
+            <!-- <label for="fileinp">+</label>
+                <span class="fileText"></span> -->
+            <button onclick="uploadImage(event)" id="upbtn">Upload image</button>
+            <div class="bar">
+                <div class="process"></div>
+            </div>
+            <div class="uploadPercentage">0%</div>
+            <div class="imageUploaded">
+                <img width="200dp" height="200dp" alt="" class="imgsrc" th:value="${product.image}">
+            </div>
+            <input type="hidden" id="imageUrlInput" name="image" onchange="setImgVal()" />
         </div>
+        <br>
         <div class="form-group">
             <label for="size">Size:</label>
             <input id="size" type="text" class="form-control" name="size" th:value="${product.size}">
@@ -127,5 +138,65 @@
         margin: 30px 0;
     }
 </style>
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+
+<script>
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8Rak_SV7qfb6-lljBVm3HsrThLSaFZSY",
+        authDomain: "ducapu-e21f9.firebaseapp.com",
+        projectId: "ducapu-e21f9",
+        storageBucket: "ducapu-e21f9.appspot.com",
+        messagingSenderId: "761962397100",
+        appId: "1:761962397100:web:062b8fe1bbf6db7fe0ce09",
+        measurementId: "G-EZGNHXV0ZP"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    let fileText = document.querySelector(".fileText");
+    let uploadPercentage = document.querySelector(".uploadPercentage");
+    let progress = document.querySelector(".progress");
+    let percentVal;
+    let fileItem;
+    let fileName;
+    const img = document.querySelector(".imgsrc");
+
+    function getFile(e){
+        fileItem = e.target.files[0];
+        fileName = fileItem.name;
+        fileText.innerHTML = fileName;
+    }
+
+    function uploadImage(event){
+        event.preventDefault();
+        let storageRef = firebase.storage().ref("product/" + fileName);
+        let uploadTask = storageRef.put(fileItem);
+
+        uploadTask.on("state_changed",(snapshot)=>{
+            console.log(snapshot);
+            percentVal = Math.floor((snapshot.bytesTransferred/snapshot.totalBytes)*100);
+            console.log(percentVal);
+            uploadPercentage.innerHTML = percentVal+"%";
+            progress.style.width = percentVal+"%";
+        },(error)=>{
+            console.log("Error is ",error);
+        },()=>{
+            uploadTask.snapshot.ref.getDownloadURL().then((url)=>{
+                console.log("Url",url);
+                if(url !== ""){
+                    img.setAttribute("src", url);
+                    img.style.display = "block";
+                }
+            })
+        })
+        let myinp = document.getElementById("#imagereceived");
+        myinp.value = url
+    }
+    function setImgVal() {
+        const imageUrl = document.querySelector('.imgsrc').src;
+        document.getElementById('imageUrlInput').value = imageUrl;
+    }
+</script>
 </body>
 </html>
