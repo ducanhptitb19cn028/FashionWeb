@@ -11,12 +11,14 @@
     <tr>
         <th>ID</th>
         <th>Product Name</th>
+        <th>Product Size</th>
         <th>New Quantity</th>
         <th>Change Time</th>
     </tr>
     <tr th:each="history : ${allProductHistory}">
         <td th:text="${history.id}"></td>
         <td th:text="${history.product.name}"></td>
+        <td th:text="${history.product.size}"></td>
         <td th:text="${history.newQuantity}"></td>
         <td th:text="${history.changeTime}"></td>
     </tr>

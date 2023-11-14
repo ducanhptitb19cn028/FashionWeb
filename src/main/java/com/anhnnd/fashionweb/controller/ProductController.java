@@ -69,7 +69,6 @@ public class ProductController {
         }
         model.addAttribute("admin", admin);
         productService.addProduct(product);
-        productService.saveProductHistory(product, product.getQuantity());
         return "redirect:/admin-products";
     }
 
@@ -135,7 +134,7 @@ public class ProductController {
         if (admin == null) {
             return "redirect:/admin-login";
         }
-        model.addAttribute("admin", admin);
+        model.addAttribute("admin", admin) ;
         Product product = productService.getProductById(productId);
         model.addAttribute("product", product);
         return "deleteProduct";

@@ -27,6 +27,10 @@ public class Order {
     private float total_price;
     private String paymentMethod;
     private String paymentStatus;
+    private LocalDateTime deliveryDate;
+    private LocalDateTime cancelDate;
+    private LocalDateTime receiveDate;
+    private LocalDateTime paymentDate;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private User user;

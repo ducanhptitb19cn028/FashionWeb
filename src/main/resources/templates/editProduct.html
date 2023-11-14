@@ -55,9 +55,9 @@
             </div>
             <div class="uploadPercentage">0%</div>
             <div class="imageUploaded">
-                <img width="200dp" height="200dp" alt="" class="imgsrc" th:value="${product.image}">
+                <img width="200dp" height="200dp" alt="" class="imgsrc" th:src="${product.image}">
             </div>
-            <input type="hidden" id="imageUrlInput" name="image" onchange="setImgVal()" />
+            <input type="hidden" id="imageUrlInput" name="image" oninput="setImgVal()" th:value="${product.image}" />
         </div>
         <br>
         <div class="form-group">
@@ -161,6 +161,7 @@
     let fileItem;
     let fileName;
     const img = document.querySelector(".imgsrc");
+    const myinp = document.getElementById("imageUrlInput");
 
     function getFile(e){
         fileItem = e.target.files[0];
@@ -186,16 +187,11 @@
                 console.log("Url",url);
                 if(url !== ""){
                     img.setAttribute("src", url);
+                    myinp.value = url;
                     img.style.display = "block";
                 }
             })
         })
-        let myinp = document.getElementById("#imagereceived");
-        myinp.value = url
-    }
-    function setImgVal() {
-        const imageUrl = document.querySelector('.imgsrc').src;
-        document.getElementById('imageUrlInput').value = imageUrl;
     }
 </script>
 </body>

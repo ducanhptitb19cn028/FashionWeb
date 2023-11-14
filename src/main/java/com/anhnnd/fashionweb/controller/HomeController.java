@@ -29,6 +29,8 @@ public class HomeController {
     public String homepage(Model model, HttpSession session,@RequestParam(value = "productName", required = false) String productName) {
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("allproducts", productService.getAllProducts());
+        session.setAttribute("categories", categoryService.getAllCategories());
+        session.setAttribute("allproducts", productService.getAllProducts());
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
         model.getAttribute("error");
@@ -41,6 +43,7 @@ public class HomeController {
     @GetMapping("/category")
     public String viewAllCategories(Model model, HttpSession session) {
         model.addAttribute("categories", categoryService.getAllCategories());
+        session.setAttribute("categories", categoryService.getAllCategories());
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
         return "home";
@@ -55,8 +58,10 @@ public class HomeController {
             model.addAttribute("prodByCate", productService.getProductByCategoryId(cid));
             Category selectedCategory = categoryService.getCategoryById(cid);
             model.addAttribute("selectedCategoryName", selectedCategory.getName());
+            session.setAttribute("selectedCategoryName", selectedCategory.getName());
         } else {
             model.addAttribute("allproducts", productService.getAllProducts());
+            session.setAttribute("allproducts", productService.getAllProducts());
         }
         return "home";
     }

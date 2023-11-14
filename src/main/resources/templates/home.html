@@ -13,8 +13,9 @@
         }
 
         .product-card img {
-            max-width: 100%;
+            width: 160px;
             height: 160px;
+            margin: auto;
         }
 
         .navbar-dark .navbar-brand,
@@ -48,7 +49,8 @@
         .product-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            row-gap: 200px;
+            column-gap: 160px;
         }
 
         .product-card {
@@ -58,6 +60,26 @@
             display: flex;
             justify-content: space-between;
             margin-right: 10px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Màu nền của nút primary */
+            color: white; /* Màu chữ của nút primary */
+        }
+
+        .btn-success {
+            background-color: #28a745; /* Màu nền của nút success */
+            color: white; /* Màu chữ của nút success */
         }
 
     </style>
@@ -81,22 +103,20 @@
 </div>
 <div th:if="${selectedCategoryName}">
     <h2 th:text="'Category: ' + ${selectedCategoryName}"></h2>
-    <div class="container">
-        <div class="product-grid">
-            <div th:each="product : ${prodByCate}" class="product-card">
-                <div class="card">
-                    <img th:src="${product.image}" alt="${product.name}" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${product.name}"></h5>
-                        <p class="card-text" th:text="'Size: ' + ${product.size}"></p>
-                        <p class="card-text" th:text="'Price: ' + ${product.price}"></p>
-                        <div class="button-container">
-                            <a th:href="@{/productDetails(id=${product.id})}" class="btn btn-primary">View Details</a>
-                            <form th:action="@{/cart/add(productId=${product.id})}" method="POST">
-                                <input type="hidden" name="quantity" value="1" min="1">
-                                <button type="submit" class="btn btn-success">Add to Cart</button>
-                            </form>
-                        </div>
+    <div class="product-grid">
+        <div th:each="product : ${prodByCate}" class="product-card">
+            <div class="card">
+                <img th:src="${product.image}" alt="${product.name}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}"></h5>
+                    <p class="card-text" th:text="'Size: ' + ${product.size}"></p>
+                    <p class="card-text" th:text="'Price: ' + ${product.price}"></p>
+                    <div class="button-container">
+                        <a th:href="@{/productDetails(id=${product.id})}" class="btn btn-primary">View Details</a>
+                        <form th:action="@{/cart/add(productId=${product.id})}" method="POST">
+                            <input type="hidden" name="quantity" value="1" min="1">
+                            <button type="submit" class="btn btn-success">Add to Cart</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -105,7 +125,6 @@
 </div>
 
 <div th:unless="${selectedCategoryName}">
-    <div class="container">
         <div class="product-grid">
             <div th:each="product : ${allproducts}" class="product-card">
                 <div class="card">
@@ -125,7 +144,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
 <script>

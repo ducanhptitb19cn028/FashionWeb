@@ -36,7 +36,7 @@ public class OrderService {
 
 
     @Transactional
-    public Order addOrder(Long userId, String address, String paymentMethod) throws Exception {
+    public void addOrder(Long userId, String address, String paymentMethod) throws Exception {
         User user = userRepository.findById(userId).orElseThrow(() -> new Exception("User not found"));
 
         Cart cart = cartRepository.findByUserId(user.getId());
@@ -73,14 +73,10 @@ public class OrderService {
         }
 
         // Save all the OrderItem items
-        for (OrderItem orderItem : orderItems) {
-            orderItemRepository.save(orderItem);
-        }
+        orderItemRepository.saveAll(orderItems);
 
         // Update stock for all products
-        for (Product product : productsToUpdateStock) {
-            productRepository.save(product);
-        }
+        productRepository.saveAll(productsToUpdateStock);
 
         order.setOrderItems(orderItems);
         order.setTotal_price(cart.getTotal_price());
@@ -93,7 +89,75 @@ public class OrderService {
             Logger.getLogger(OrderService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return order;
     }
 
+    @Transactional
+    public void cancelOrder(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Exception("Order not found"));
+        // Update order status to canceled
+        order.setCancelDate(LocalDateTime.now());
+        order.setOrderStatus("Cancelled");
+        orderRepository.save(order);
+        // Restore product quantities and quantities sold
+        List<OrderItem> orderItems = order.getOrderItems();
+        List<Product> productsToUpdate = new ArrayList<>();
+
+        for (OrderItem orderItem : orderItems) {
+            Product product = orderItem.getProduct();
+            int quantityReturned = orderItem.getQuantity();
+
+            product.setQuantity(product.getQuantity() + quantityReturned);
+            product.setQuantitysold(product.getQuantitysold() - quantityReturned);
+
+            productsToUpdate.add(product);
+        }
+        // Update product quantities
+        productRepository.saveAll(productsToUpdate);
+    }
+    @Transactional
+    public void markOrderAsReceived(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Exception("Order not found"));
+
+        if (!order.getOrderStatus().equals("Pending")) {
+            throw new Exception("Order cannot be marked as received as it's not in pending status.");
+        }
+        order.setReceiveDate(LocalDateTime.now());
+        order.setOrderStatus("Received");
+        orderRepository.save(order);
+    }
+    @Transactional
+    public void markOrderAsDelivered(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Exception("Order not found"));
+
+        if (!order.getOrderStatus().equals("Received")) {
+            throw new Exception("Order cannot be marked as delivered as it's not in Received status.");
+        }
+        order.setDeliveryDate(LocalDateTime.now());
+        order.setOrderStatus("Delivered");
+        orderRepository.save(order);
+    }
+    public List<Order> getOrdersByStatus(String status) {
+        return orderRepository.findByOrderStatus(status);
+    }
+    public List<Order> getOrdersByPaymentStatus(String status) {
+        return orderRepository.findByPaymentStatus(status);
+    }
+    @Transactional
+    public void markOrderAsPaid(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Exception("Order not found"));
+        if (!order.getOrderStatus().equals("Delivered")) {
+            throw new Exception("Order cannot be marked as paid as it's not in delivered status.");
+        }
+        order.setPaymentDate(LocalDateTime.now());
+        order.setPaymentStatus("Paid");
+        orderRepository.save(order);
+    }
+
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findById(orderId).orElse(null);
+    }
 }

@@ -14,6 +14,10 @@
             <div class="card-body">
                 <p>Order ID: <span th:text="${order.id}"></span></p>
                 <p>Date: <span th:text="${order.date}"></span></p>
+                <p th:if="${order.cancelDate}">Cancel date: <span th:text="${order.cancelDate}"></span></p>
+                <p th:if="${order.receiveDate}">Received date: <span th:text="${order.receiveDate}"></span></p>
+                <p th:if="${order.deliveryDate}">Delivery date: <span th:text="${order.deliveryDate}"></span></p>
+                <p th:if="${order.paymentDate}">Payment date: <span th:text="${order.paymentDate}"></span></p>
                 <p>Order Status: <span th:text="${order.orderStatus}"></span></p>
                 <p>Location: <span th:text="${order.location}"></span></p>
                 <p>Total Price: <span th:text="${order.total_price}"></span></p>
@@ -27,9 +31,27 @@
                         <span th:text="${orderItem.product.name}"></span> - Quantity: <span th:text="${orderItem.quantity}"></span> - Price: <span th:text="${orderItem.price}"></span>
                     </li>
                 </ul>
+                <div th:if="${order.orderStatus == 'Pending'}">
+                    <form id="cancelOrderForm" th:action="@{/order/cancelOrder(orderId=${order.id})}" method="post">
+                        <button type="submit" onclick="confirmCancel(event)" class="btn btn-danger">Cancel Order</button>
+                    </form>
+                </div>
+                <p th:if="${order.orderStatus == 'Cancelled'}" class="btn btn-secondary"> Order was canceled</p>
+                <p th:if="${order.orderStatus == 'Delivered' && order.paymentStatus == 'Paid'}" class="btn btn-success">Package was delivered to you</p>
+                <p th:if="${order.orderStatus == 'Received'}" class="btn btn-info"> We have received your order </p>
+                <p th:if="${order.orderStatus == 'Delivered' && order.paymentStatus == 'Pending'}" class="btn btn-warning"> Order <span th:text="${order.id}"></span> will be delivered to you soon </p>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function confirmCancel(event) {
+        if (confirm("Are you sure you want to cancel this order?")) {
+            document.getElementById("cancelOrderForm").submit();
+        } else {
+            event.preventDefault();
+        }
+    }
+</script>
 </body>
 </html>

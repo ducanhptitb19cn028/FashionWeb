@@ -19,6 +19,8 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private CartService cartService;
 
     @PostMapping("/submitOrder")
     public String submitOrder(HttpSession session, Model model, @RequestParam String address, @RequestParam String paymentMethod) {
@@ -28,9 +30,14 @@ public class OrderController {
         }
         Long userId = user.getId();
         model.addAttribute("user", user);
+        Cart cart = cartService.findByUserId(userId);
         try {
+            if (cart.getCartItems().isEmpty()) {
+                model.addAttribute("error", "you should add something to cart first");
+                return "redirect:/";
+            }
             orderService.addOrder(userId, address, paymentMethod);
-            return "redirect:/";
+            return "redirect:/cart/view";
         } catch (Exception e) {
             session.setAttribute("errorMessage", e.getMessage());
             return "redirect:/order/orderForm";
@@ -52,5 +59,20 @@ public class OrderController {
         }
 
         return "orderHistory";
+    }
+    @PostMapping("/cancelOrder")
+    public String cancelOrder(HttpSession session, Model model, @RequestParam("orderId") Long orderId) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("user", user);
+        try {
+            orderService.cancelOrder(orderId);
+            return "redirect:/order/orderHistory";
+        } catch (Exception e) {
+            session.setAttribute("errorMessage", e.getMessage());
+            return "redirect:/order/orderHistory";
+        }
     }
 }

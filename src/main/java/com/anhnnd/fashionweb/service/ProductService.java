@@ -39,6 +39,7 @@ public class ProductService {
     @Transactional
     public void addProduct(Product product) {
         productRepository.save(product);
+        productHistoryRepository.save(new ProductHistory(product, product.getQuantity()));
     }
 
 

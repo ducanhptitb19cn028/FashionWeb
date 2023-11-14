@@ -37,34 +37,49 @@
     <div th:if="${existingProduct == null}">
         <h2>Product does not exist. Add new product:</h2>
         <form th:action="@{/admin-products/addNew}" method="post" accept-charset="UTF-8">
-            <label for="name">Product Name:</label>
-            <label>
-                <input type="text" name="name" th:value="${param.name}" required readonly>
-            </label>
-            <br>
-            <label for="price">Price:</label>
-            <input id="price" type="number" name="price" required>
-            <br>
-            <label for="quantity">Quantity:</label>
-            <input type="number" name="quantity" required>
-            <br>
-            <label for="category">Category:</label>
-            <select id="category" name="category.id" required>
-                <option th:each="cate : ${categories}" th:value="${cate.id}" th:text="${cate.name}"></option>
-            </select>
-            <br>
-            <label for="supplier">Supplier:</label>
-            <select id="supplier" name="supplier.id" required>
-                <option th:each="spr : ${suppliers}" th:value="${spr.id}" th:text="${spr.name}"></option>
-            </select>
-            <br>
+            <div class="form-group">
+                <label for="name">Product Name:</label>
+                <label>
+                    <input type="text" name="name" th:value="${param.name}" required readonly>
+                </label>
+                <br>
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input id="price" type="number" name="price" required>
+                <br>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" name="quantity" required>
+                <br>
+            </div>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="category.id" required>
+                    <option th:each="cate : ${categories}" th:value="${cate.id}" th:text="${cate.name}"></option>
+                </select>
+                <br>
+            </div>
+            <div class="form-group">
+                <label for="supplier">Supplier:</label>
+                <select id="supplier" name="supplier.id" required>
+                    <option th:each="spr : ${suppliers}" th:value="${spr.id}" th:text="${spr.name}"></option>
+                </select>
+                <br>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+                <br>
+            </div>
+
+            <input type="hidden" name="quantitysold" th:value="0"/>
 <!--            <input type="hidden" name="listComment" th:value=""/>-->
             <input type="hidden" name="admin" th:value="${admin.id}"/>
             <br>
 
-            <label for="description">Description:</label>
-            <textarea id="description" name="description"></textarea>
-            <br>
+
             <div class="form-group">
                 <input type="file" class="inputFile" id="fileinp" onchange="getFile(event)" accept="image/*" />
                 <!-- <label for="fileinp">+</label>
@@ -77,7 +92,7 @@
                 <div class="imageUploaded">
                     <img width="200dp" height="200dp" alt="" class="imgsrc">
                 </div>
-                <input type="hidden" id="imageUrlInput" name="image" onchange="setImgVal()" />
+                <input type="hidden" id="imageUrlInput" name="image" oninput="setImgVal()" />
             </div>
             <br>
             <label for="size">Size:</label>
@@ -89,8 +104,6 @@
                 <option value="Female">Female</option>
                 <option value="Unisex">Unisex</option>
             </select>
-            <br>
-            <input type="hidden" name="quantitysold" th:value="0"/>
             <br>
             <input type="submit" value="Add Product">
             <br>
@@ -157,6 +170,9 @@
 <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
 
 <script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+
+<script>
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
         apiKey: "AIzaSyA8Rak_SV7qfb6-lljBVm3HsrThLSaFZSY",
@@ -177,6 +193,7 @@
     let fileItem;
     let fileName;
     const img = document.querySelector(".imgsrc");
+    const myinp = document.getElementById("imageUrlInput");
 
     function getFile(e){
         fileItem = e.target.files[0];
@@ -202,16 +219,11 @@
                 console.log("Url",url);
                 if(url !== ""){
                     img.setAttribute("src", url);
+                    myinp.value = url;
                     img.style.display = "block";
                 }
             })
         })
-        let myinp = document.getElementById("#imagereceived");
-        myinp.value = url
-    }
-    function setImgVal() {
-        const imageUrl = document.querySelector('.imgsrc').src;
-        document.getElementById('imageUrlInput').value = imageUrl;
     }
 </script>
 </body>
