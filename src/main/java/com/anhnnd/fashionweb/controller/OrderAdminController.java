@@ -68,7 +68,7 @@ public class OrderAdminController {
             return "redirect:/admin-login";
         }
         model.addAttribute("admin", admin);
-        List<Order> deliveredOrders = orderService.getOrdersByStatus("Delivered");
+        List<Order> deliveredOrders = orderService.getOrdersByOrderStatusAndPaymentStatus("Delivered","Pending");
         model.addAttribute("deliveredOrders",deliveredOrders);
         return "deliveredorder";
     }
@@ -89,7 +89,7 @@ public class OrderAdminController {
             return "redirect:/admin-login";
         }
         model.addAttribute("admin", admin);
-        List<Order> paidOrders = orderService.getOrdersByPaymentStatus("Paid");
+        List<Order> paidOrders = orderService.getOrdersByOrderStatusAndPaymentStatus("Delivered","Paid");
         model.addAttribute("paidOrders",paidOrders);
         return "paidorder";
     }

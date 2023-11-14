@@ -142,8 +142,11 @@ public class OrderService {
     public List<Order> getOrdersByStatus(String status) {
         return orderRepository.findByOrderStatus(status);
     }
-    public List<Order> getOrdersByPaymentStatus(String status) {
-        return orderRepository.findByPaymentStatus(status);
+    public List<Order> getAll() {
+        return orderRepository.findAll();
+    }
+    public List<Order> getOrdersByOrderStatusAndPaymentStatus(String order_status,String payment_status) {
+        return orderRepository.findByOrderStatusAndPaymentStatus(order_status,payment_status);
     }
     @Transactional
     public void markOrderAsPaid(Long orderId) throws Exception {
