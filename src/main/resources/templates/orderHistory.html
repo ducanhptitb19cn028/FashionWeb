@@ -36,10 +36,16 @@
                         <button type="submit" onclick="confirmCancel(event)" class="btn btn-danger">Cancel Order</button>
                     </form>
                 </div>
+                <p ></p>
                 <p th:if="${order.orderStatus == 'Cancelled'}" class="btn btn-secondary"> Order was canceled</p>
-                <p th:if="${order.orderStatus == 'Delivered' && order.paymentStatus == 'Paid'}" class="btn btn-success">Package was delivered to you</p>
+                <p th:if="${order.orderStatus == 'Customer Received' && order.paymentStatus == 'Paid'}" class="btn btn-success">Package was delivered to you</p>
                 <p th:if="${order.orderStatus == 'Received'}" class="btn btn-info"> We have received your order </p>
-                <p th:if="${order.orderStatus == 'Delivered' && order.paymentStatus == 'Pending'}" class="btn btn-warning"> Order <span th:text="${order.id}"></span> will be delivered to you soon </p>
+                <p th:if="${order.orderStatus == 'Delivered' && order.paymentStatus == 'Pending'}" class="btn btn-warning"> Order <span th:text="${order.id}"></span> is on the way to you </p>
+                <div th:if="${order.orderStatus == 'Delivered' && order.paymentStatus == 'Pending'}">
+                    <form id="confirmreceiveOrderForm" th:action="@{/order/confirmreceiveOrder(orderId=${order.id})}" method="post">
+                        <button type="submit" onclick="confirmReceive(event)" class="btn btn-success">Confirm </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -48,6 +54,13 @@
     function confirmCancel(event) {
         if (confirm("Are you sure you want to cancel this order?")) {
             document.getElementById("cancelOrderForm").submit();
+        } else {
+            event.preventDefault();
+        }
+    }
+    function confirmReceive(event) {
+        if (confirm("Please make sure that you have received this order")) {
+            document.getElementById("confirmreceiveOrderForm").submit();
         } else {
             event.preventDefault();
         }

@@ -19,10 +19,6 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
-
-    public List<Order> getAllOrdersByUserId(Long userId) {
-        return orderRepository.viewAllOrdersByUserId(userId);
-    }
     @Autowired
     private OrderItemRepository orderItemRepository;
     @Autowired
@@ -33,7 +29,9 @@ public class OrderService {
     private ProductRepository productRepository;
     @Autowired
     private UserRepository userRepository;
-
+    public List<Order> getAllOrdersByUserId(Long userId) {
+        return orderRepository.viewAllOrdersByUserId(userId);
+    }
 
     @Transactional
     public void addOrder(Long userId, String address, String paymentMethod) throws Exception {
@@ -148,12 +146,15 @@ public class OrderService {
     public List<Order> getOrdersByOrderStatusAndPaymentStatus(String order_status,String payment_status) {
         return orderRepository.findByOrderStatusAndPaymentStatus(order_status,payment_status);
     }
+    public List<Order> getOrdersByMultipleOrderStatusAndPaymentStatus(String order_status,String order_status1,String payment_status) {
+        return orderRepository.findByMultipleOrderStatusAndPaymentStatus(order_status,order_status1,payment_status);
+    }
     @Transactional
     public void markOrderAsPaid(Long orderId) throws Exception {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception("Order not found"));
-        if (!order.getOrderStatus().equals("Delivered")) {
-            throw new Exception("Order cannot be marked as paid as it's not in delivered status.");
+        if (!order.getOrderStatus().equals("Customer Received")) {
+            throw new Exception("Order cannot be marked as paid as it's not received by customer.");
         }
         order.setPaymentDate(LocalDateTime.now());
         order.setPaymentStatus("Paid");
@@ -162,5 +163,16 @@ public class OrderService {
 
     public Order getOrderById(Long orderId) {
         return orderRepository.findById(orderId).orElse(null);
+    }
+    @Transactional
+    public void customerReceivedOrder(Long orderId) throws Exception {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Exception("Order not found"));
+        if (!order.getOrderStatus().equals("Delivered")) {
+            throw new Exception("Order cannot be marked as received as it's not in delivered status.");
+        }
+        order.setReceiveDate(LocalDateTime.now());
+        order.setOrderStatus("Customer Received");
+        orderRepository.save(order);
     }
 }

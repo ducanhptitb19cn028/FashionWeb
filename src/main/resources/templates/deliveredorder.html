@@ -26,10 +26,13 @@
                         <span th:text="${orderItem.product.name}"></span> - Quantity: <span th:text="${orderItem.quantity}"></span> - Price: <span th:text="${orderItem.price}"></span>
                     </li>
                 </ul>
+                <p th:if="${order.orderStatus == 'Delivered'}" class="btn btn-success">Package was delivered to customer</p>
+                <div th:if="${order.orderStatus == 'Customer Received'}">
+                    <form id="confirmPaidForm" th:action="@{/update-to-paid(orderId=${order.id})}" method="post">
+                        <button type="submit" onclick="confirmPaid(event)" class="btn btn-info" >Confirm paid status </button>
+                    </form>
+                </div>
 
-                <form id="confirmPaidForm" th:action="@{/update-to-paid(orderId=${order.id})}" method="post">
-                    <button type="submit" onclick="confirmPaid(event)" class="btn btn-info" >Confirm paid status </button>
-                </form>
             </div>
         </div>
     </div>

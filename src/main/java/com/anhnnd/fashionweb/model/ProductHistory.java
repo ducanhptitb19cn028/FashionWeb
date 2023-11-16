@@ -1,5 +1,6 @@
 package com.anhnnd.fashionweb.model;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class ProductHistory {
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
+    @NotNull
     private Product product;
     @Column(name = "new_quantity")
     private int newQuantity;

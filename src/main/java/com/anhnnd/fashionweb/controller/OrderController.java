@@ -75,4 +75,19 @@ public class OrderController {
             return "redirect:/order/orderHistory";
         }
     }
+    @PostMapping("/confirmreceiveOrder")
+    public String confirmOrder(HttpSession session, Model model, @RequestParam("orderId") Long orderId) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("user", user);
+        try {
+            orderService.customerReceivedOrder(orderId);
+            return "redirect:/order/orderHistory";
+        } catch (Exception e) {
+            session.setAttribute("errorMessage", e.getMessage());
+            return "redirect:/order/orderHistory";
+        }
+    }
 }

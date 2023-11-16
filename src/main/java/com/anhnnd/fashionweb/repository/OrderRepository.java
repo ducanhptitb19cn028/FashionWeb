@@ -16,5 +16,8 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     List<Order> findByOrderStatus(String order_status);
     List<Order> findByOrderStatusAndPaymentStatus(String order_status, String payment_status);
 
+    @Query("SELECT o FROM Order o where o.orderStatus =:order_status or o.orderStatus =:order_status1 and o.paymentStatus =:payment_status order by o.id desc" )
+    List<Order> findByMultipleOrderStatusAndPaymentStatus(String order_status, String order_status1, String payment_status);
+
     List<Order> findByPaymentStatus(String payment_status);
 }
