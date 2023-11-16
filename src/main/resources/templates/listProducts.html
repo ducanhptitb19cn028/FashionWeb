@@ -32,9 +32,15 @@
         <td th:text="${product.quantity}"></td>
         <td th:text="${product.category.name}"></td>
         <td th:text="${product.supplier.name}"></td>
-        <td th:if="${product.quantitysold == 0}"><a th:href="@{/admin-products/showEditForm(id=${product.id})}" class="btn btn-info">Edit</a></td>
-        <td th:if="${product.quantitysold == 0 || product.quantity == 0}"><a th:href="@{/admin-products/showDeleteForm(id=${product.id})}" class="btn btn-danger">Delete</a></td>
-        <td><a th:href="@{/admin-products/viewProductHistory(id=${product.id})}" class="btn btn-success">View History</a></td>
+        <td>
+            <div class="button-container">
+                <p th:if="${product.quantitysold == 0}"><a th:href="@{/admin-products/showEditForm(id=${product.id})}" class="btn btn-info">Edit</a></p>
+                <p th:if="${product.quantitysold == 0 || product.quantity == 0}"><a th:href="@{/admin-products/showDeleteForm(id=${product.id})}" class="btn btn-danger">Delete</a></p>
+                <p><a th:href="@{/admin-products/viewProductHistory(id=${product.id})}" class="btn btn-success">View History</a></p>
+            </div>
+
+        </td>
+
     </tr>
 </table>
 <br>
@@ -93,6 +99,10 @@
         color: #007BFF;
         text-align: center;
         margin: 30px 0;
+    }
+    .button-container {
+        display: flex;
+        gap: 10px;
     }
 </style>
 </body>
