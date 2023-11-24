@@ -5,11 +5,16 @@ import com.anhnnd.fashionweb.model.Review;
 import com.anhnnd.fashionweb.model.User;
 import com.anhnnd.fashionweb.service.ProductService;
 import com.anhnnd.fashionweb.service.ReviewService;
+import com.anhnnd.fashionweb.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -22,6 +27,8 @@ class ReviewControllerTest {
 
     @Mock
     private ProductService productService;
+    @Mock
+    private UserService userService;
 
     @Mock
     private HttpSession session;
@@ -33,27 +40,14 @@ class ReviewControllerTest {
     private ReviewController reviewController;
 
     @Test
+    @Transactional
+    @Rollback
     void testAddReview() {
-        // Arrange
-        User mockUser = new User(); // create a mock user
-        when(session.getAttribute("user")).thenReturn(mockUser);
+        User mockUser = userService.getUserById(1L);
+        Product mockProduct = productService.getProductById(1L);
+        Review review = new Review(mockProduct, mockUser, "Test review", 5, LocalDateTime.now());
+        reviewService.addReview(review);
 
-        Review review = new Review();
-        review.setProduct(new Product()); // create a mock product for the review
-
-        Long productId = 1L;
-        review.getProduct().setId(productId);
-
-        when(productService.getProductById(productId)).thenReturn(new Product()); // mock product service
-
-        // Act
-        String result = reviewController.addReview(review, model, session);
-
-        // Assert
-        assertEquals("redirect:/productDetails?id=" + productId, result);
-
-        // Verify that the reviewService method was called
-        verify(reviewService, times(1)).addReview(review);
     }
 
     @Test

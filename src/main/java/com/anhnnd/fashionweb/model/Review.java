@@ -33,4 +33,12 @@ public class Review {
     private LocalDateTime reviewDate;
     @Transient
     private Boolean isUserComment;
+
+    public Review(Product mockProduct, User mockUser, String testReview, int i, LocalDateTime now) {
+        this.product = mockProduct;
+        this.user = mockUser;
+        this.comment = testReview;
+        this.rating = i;
+        this.reviewDate = now;
+    }
 }

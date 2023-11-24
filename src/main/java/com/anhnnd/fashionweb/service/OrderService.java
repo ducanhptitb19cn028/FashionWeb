@@ -29,6 +29,8 @@ public class OrderService {
     private ProductRepository productRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private NotificationService notificationService;
     public List<Order> getAllOrdersByUserId(Long userId) {
         return orderRepository.viewAllOrdersByUserId(userId);
     }
@@ -79,6 +81,8 @@ public class OrderService {
         order.setOrderItems(orderItems);
         order.setTotal_price(cart.getTotal_price());
         orderRepository.saveAndFlush(order);
+        // Send notification
+        notificationService.sendNotification(order);
 
         try {
             //delete cart after order
