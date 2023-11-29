@@ -58,6 +58,9 @@ public class CartService {
         boolean flag = true;
         for (CartItem value : cartItems) {
             if (value.getProduct().getId().equals(productId)) {
+                if (value.getQuantity() + quantity > value.getProduct().getQuantity()) {
+                    throw new Exception("Product quantity is not enough");
+                }
                 value.setQuantity(value.getQuantity() + quantity);
                 flag = false;
                 break;
@@ -169,6 +172,9 @@ public class CartService {
             CartItem element = itemList.get(i);
             if (element.getProduct().getId().equals(productId)) {
 //				cart.setProduct_quantity(cart.getProduct_quantity() + 1);
+                if (cart.getCartItems().get(i).getQuantity() + 1 > cart.getCartItems().get(i).getProduct().getQuantity()) {
+                    throw new Exception("Product quantity is not enough");
+                }
                 cart.getCartItems().get(i).setQuantity(cart.getCartItems().get(i).getQuantity() + 1);
                 flag = false;
             }

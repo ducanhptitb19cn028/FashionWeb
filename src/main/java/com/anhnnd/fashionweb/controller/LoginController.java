@@ -2,6 +2,7 @@ package com.anhnnd.fashionweb.controller;
 
 import com.anhnnd.fashionweb.model.User;
 import com.anhnnd.fashionweb.repository.UserRepository;
+import com.anhnnd.fashionweb.service.SessionLogService;
 import com.anhnnd.fashionweb.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -18,7 +19,8 @@ public class LoginController {
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private SessionLogService sessionLogService;
     @GetMapping("/login")
     public String showLoginPage(Model model) {
 //        model.getAttribute("error");
@@ -31,6 +33,7 @@ public class LoginController {
         if (user != null && user.getPassword().equals(password)) {
             // Đăng nhập thành công, lưu thông tin vào session
             session.setAttribute("user", user);
+            sessionLogService.addSessionLog(session, user, "login to home page");
             model.addAttribute("username", user.getLastname());
             return "redirect:/";
         } else {

@@ -61,6 +61,7 @@ public class CartController {
             return "redirect:/cart/view";
         } catch (Exception e) {
             e.printStackTrace();
+            model.addAttribute("error", e.getMessage());
             return "error";
         }
     }

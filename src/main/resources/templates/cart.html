@@ -89,6 +89,9 @@
     <form th:action="@{/cart/orderForm}" method="GET">
         <button type="submit" class="btn btn-success">Go to Order</button>
     </form>
+    <div class="alert alert-danger mt-4" th:if="${error}">
+        <p th:text="${error}"></p>
+    </div>
 </div>
 
 </body>

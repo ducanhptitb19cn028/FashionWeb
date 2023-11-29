@@ -38,7 +38,7 @@ public class OrderController {
                 return "redirect:/";
             }
             orderService.addOrder(userId, address, paymentMethod);
-            return "redirect:/cart/view";
+            return "redirect:/order/orderHistory";
         } catch (Exception e) {
             session.setAttribute("errorMessage", e.getMessage());
             return "redirect:/order/orderForm";

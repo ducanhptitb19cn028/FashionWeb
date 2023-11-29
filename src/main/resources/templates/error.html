@@ -6,6 +6,9 @@
 </head>
 <body>
 <h1>404 ERROR</h1>
+<div class="alert alert-danger mt-4" th:if="${error}">
+    <p th:text="${error}"></p>
+</div>
 <a th:href="@{/}">Go to home page</a>
 </body>
 </html>
